@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="device-width-width,  initial-scale=1.0">
+    <title>Abdi's forex shop</title>
+    <script>
+        let timeleft = 5; // countdown starts from 5 seconds
+        function startCountdown() {
+            let countdown = document.getElementById("countdown");
+
+            let timer = setInterval(function() {
+                countdown.textContent = timeleft;
+                timeleft--;
+
+                if (timeleft < 0) {
+                    clearInterval(timer);
+                    //redirect after countdown ends
+                    window.location.href = "CURRENCY CONVERTER.html";
+                }
+            }, 1000); //run every 1 second 
+        }
+    </script>
+    </head>
+    <body onload="startCountdown()">
+        <h1>Abdi's forex shop</h1>
+        <p>You will be redirected in <span id="countdown">5</span> seconds...</p>
+    </body>
+</html>

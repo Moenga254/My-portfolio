@@ -1,0 +1,123 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #aed2ee;
+    }
+
+   Input[type=button] 
+   {
+  background-color: #25D366; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease; /* smooth color change */
+  transform: scale(1.02);/* button grows*/ 
+   }
+
+   
+   
+    /* Navbar Container */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: #1e293b;
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px white;
+    }
+
+    nav .logo {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* Nav Links */
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    /* Underline animation */
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0%;
+      height: 2px;
+      background: #e81313;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    nav ul li a:hover {
+      color: #5afa10;
+    }
+
+    /* Hamburger */
+    .menu-btn {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .menu-btn span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    /* Mobile menu */
+    @media (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #1e293b;
+        flex-direction: column;
+        width: 200px;
+        padding: 20px;
+        gap: 20px;
+        transform: translateY(-200%);
+        transition: transform 0.4s ease-in-out;
+      }
+
+      nav ul.active {
+        transform: translateY(0);
+      }
+
+      .menu-btn {
+        display: flex;
+      }
+    }
+  
+  

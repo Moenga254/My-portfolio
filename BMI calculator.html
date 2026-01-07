@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1c81da, #143e72);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      width: 380px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1c81da;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #dcdcdc;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #1c81da;
+      box-shadow: 0 0 6px rgba(28, 129, 218, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 18px;
+      background: #1c81da;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #125a9c;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f1f8ff;
+      border-left: 5px solid #1c81da;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .highlight {
+      color: #1c81da;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>BMI Calculator</h2>
+
+    <label for="name">Patient Name:</label>
+    <input type="text" id="name" placeholder="Enter name">
+
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter weight">
+
+    <label for="height">Height (m):</label>
+    <input type="number" step="0.01" id="height" placeholder="Enter height">
+
+    <button onclick="calculateBMI()">Calculate BMI</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateBMI() {
+      let name = document.getElementById("name").value;
+      let weight = parseFloat(document.getElementById("weight").value);
+      let height = parseFloat(document.getElementById("height").value);
+      let resultDiv = document.getElementById("result");
+
+      if (!name || !weight || !height) {
+        resultDiv.innerHTML = "<p>Please fill in all fields.</p>";
+        return;
+      }
+
+      let bmi = weight / (height * height);
+      let classification = "";
+      let recommendation = "";
+
+      if (bmi < 18.5) {
+        classification = "Underweight";
+        recommendation = "Eat a balanced diet with more calories, add strength training exercises.";
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        classification = "Normal weight";
+        recommendation = "Maintain your healthy lifestyle with regular exercise and balanced meals.";
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        classification = "Overweight";
+        recommendation = "Adopt a low-calorie diet, increase physical activity, and avoid sugary foods.";
+      } else if (bmi >= 30 && bmi <= 34.9) {
+        classification = "Class I Obese";
+        recommendation = "Consult a nutritionist, follow a strict exercise routine, and reduce junk food.";
+      } else if (bmi >= 35 && bmi <= 39.9) {
+        classification = "Class II Obese";
+        recommendation = "Seek medical advice, follow a structured diet and exercise plan.";
+      } else {
+        classification = "Class III Obese";
+        recommendation = "Immediate medical intervention recommended. Specialized diet and exercise under supervision.";
+      }
+
+      resultDiv.innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>BMI:</strong> ${bmi.toFixed(2)}</p>
+        <p><strong>Classification:</strong> <span class="highlight">${classification}</span></p>
+        <p><strong>Recommendation:</strong> ${recommendation}</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
