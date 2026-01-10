@@ -1,41 +1,64 @@
-/* ============================= */
-/* MOBILE RESPONSIVENESS */
-/* ============================= */
 
-@media (max-width: 768px) {
-
-    body {
-        padding: 10px;
-        background-attachment: fixed;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
-    form {
-        width: 95%;
-        max-width: 100%;
-        margin: 20px auto;
-        padding: 20px 15px;
-    }
-
-    input[type=text],
-    input[type=number] {
-        width: 100%;
-        font-size: 16px;
-        height: 44px; /* better for touch */
-    }
-
-    input[type=button],
-    button {
-        width: 100%;
-        max-width: none;
-        height: 46px;
-        font-size: 16px;
-    }
-
-    a {
-        font-size: 15px;
-    }
-}
+/* Page Title */
+h1 { font-family: "Poppins","Times New Roman", serif; 
+    font-size: 28px;
+    margin-bottom: 15px; 
+    color: #114b9e; 
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+    /* Background */
+    body { background-image: url("dollar.jpg"); 
+          background-size: cover;
+          background-position: center;
+          font-size: 17px;
+          text-align: center;
+          font-family: Arial, sans-serif; 
+          padding: 20px 10px; } 
+        /* Form Container */ 
+    form { background: rgba(255, 255, 255, 0.93); 
+          backdrop-filter: blur(4px);
+          border-radius: 14px;
+          border: 3px solid #b30000;
+          width: 40%;
+          /* Reduced width */ 
+          max-width: 420px;
+          /* Smaller max size */
+          margin: 50px auto;
+          /* Less top space */
+          padding: 25px 20px; 
+          /* Tighter padding */
+          box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+          display: flex;
+          flex-direction: column;
+          align-items: center; }
+/* Inputs */
+input[type=text], input[type=number] 
+{ width: 85%; border: 2px solid #333;
+ border-radius: 10px; 
+ background-color: #0056b3; 
+ color: white;
+ height: 40px; 
+ padding: 6px 10px; 
+ /* Reduced padding */ 
+ margin: 8px 0;
+ /* Less vertical space */
+ font-size: 16px; }
+/* Buttons */
+input[type=button], button 
+{ background-color: #0d6efd; 
+ color: white; width: 85%; max-width: 260px;
+ /* Smaller button width */
+ height: 42px;
+ /* Slightly shorter */
+ border: none; border-radius: 10px; padding: 8px; 
+ /* Reduced padding */
+ margin: 8px 0; 
+ /* MUCH LESS spacing */ 
+ font-size: 16px; 
+ font-weight: bold;
+ cursor: pointer; } 
+/* Result Box */ 
+#Result { background-color: #111;
+         color: #00ff40; font-weight: bold; text-align: center;
+         border-radius: 8px; height: 40px; padding-top: 8px; margin-top: 10px; } 
+/* Links */
+a { margin-top: 10px; font-weight: bold; color: #b30000; font-size: 17px; }
