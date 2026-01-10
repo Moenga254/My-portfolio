@@ -1,38 +1,37 @@
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CURRENCY CONVERTER</title>
+
     <script>
         function calc() {
             let N = document.getElementById('Name').value.trim();
             let V = document.getElementById('Value').value.trim();
 
-            // 1. USER NAME: only letters allowed
+            // Name validation
             let namePattern = /^[A-Za-z\s]+$/;
             if (!namePattern.test(N) || N === "") {
-                alert("❌ Please enter a valid name (letters only, no numbers or symbols).");
+                alert("❌ Please enter a valid name (letters only).");
                 document.getElementById('Name').focus();
                 return;
             }
 
-            // 2. VALUE: max 6 characters
+            // Value length check
             if (V.length > 6) {
-                alert("❌ Value must not exceed 6 characters.");
+                alert("❌ Value must not exceed 6 digits.");
                 document.getElementById('Value').focus();
                 return;
             }
 
-            // 3. Convert to number
             let Vnum = parseFloat(V);
             if (isNaN(Vnum) || Vnum <= 0) {
-                alert("❌ Please enter a valid numeric amount in KSH.");
+                alert("❌ Please enter a valid amount in KSH.");
                 return;
             }
 
-            // Conversion (1 USD = 120 KSH for demo)
+            // Conversion rate (demo)
             let VUSD = Vnum / 120;
             document.getElementById('Result').value = `$${VUSD.toFixed(2)}`;
         }
@@ -40,47 +39,61 @@
         function closeWin() {
             alert("Browsers don’t allow closing this tab directly. Please close it manually.");
         }
+
+        function showTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            let period = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+            document.getElementById("time").textContent = `${hours}:${minutes} ${period}`;
+        }
+
+        window.onload = showTime;
     </script>
+
     <link rel="stylesheet" href="CURRENCY CONVERTER.css">
 </head>
+
 <body>
-    <form>
-        <script>
-            
-            var currentTime = new Date() 
-var hours = currentTime.getHours() 
-var minutes = currentTime.getMinutes() 
-if (minutes < 10) 
-{ 
-minutes = "0" + minutes 
-} 
-document.write(hours + ":" + minutes + " ") 
-if(hours > 11){ 
-document.write("PM") 
-} else { 
-document.write("AM") 
-} 
+    <div class="container">
+        <p id="time"></p>
 
+        <h1>CURRENCY CONVERTER</h1>
 
-        </script>
-        <h1><strong>CURRENCY CONVERTER</strong></h1>
-        <br>
-        USER NAME <input type="text" id="Name" placeholder="Enter your name"/>
-        <br><br>
-        ENTER A VALUE IN KSH <input type="number" id="Value" placeholder="Amount in KSH" maxlength="6"/>
-        <br><br>
-        <input type="button" value="Convert to Dollars" onclick="calc()"/>
-        <br><br>
-        <label for="Result">Result:</label>
-        <input type="text" id="Result" readonly/>
-        <br><br>
-        <a href="https://www.centralbank.go.ke/rates/forex-exchange-rates/" target="_blank">
-            Click here to view current rates
-        </a>
-        <br><br>
-        <button type="button" onclick="window.print()">Print this page</button>
-        <br><br>
-        <button type="button" onclick="closeWin()">Exit window</button>
-    </form>
+        <form onsubmit="return false;">
+            <label for="Name">User Name</label>
+            <input 
+                type="text" 
+                id="Name" 
+                placeholder="Enter your name"
+                required
+            >
+
+            <label for="Value">Enter Amount (KSH)</label>
+            <input 
+                type="text" 
+                id="Value" 
+                placeholder="e.g. 5000"
+                inputmode="numeric"
+                maxlength="6"
+                required
+            >
+
+            <button type="button" onclick="calc()">
+                Convert to Dollars
+            </button>
+
+            <label for="Result">Result</label>
+            <input type="text" id="Result" readonly>
+
+            <a href="https://www.centralbank.go.ke/rates/forex-exchange-rates/" target="_blank">
+                View current exchange rates
+            </a>
+
+            <button type="button" onclick="window.print()">Print</button>
+            <button type="button" onclick="closeWin()">Exit</button>
+        </form>
+    </div>
 </body>
 </html>
