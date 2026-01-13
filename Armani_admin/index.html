@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* Mobile Menu Button */
         .mobile-menu-btn {
             position: fixed;
             top: 1rem;
@@ -58,7 +58,6 @@
             transform: rotate(-45deg) translate(7px, -7px);
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -121,7 +120,6 @@
             border-left: 3px solid #DAA520;
         }
 
-        /* Main Content */
         .main-content {
             margin-left: 260px;
             padding: 2rem;
@@ -171,7 +169,6 @@
             font-size: 1.5rem;
         }
 
-        /* Content Sections */
         .content-section {
             display: none;
         }
@@ -194,7 +191,6 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -233,18 +229,18 @@
             opacity: 0.5;
         }
 
-        /* Table Container */
         .table-container {
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(218, 165, 32, 0.2);
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 800px;
         }
 
         thead {
@@ -269,7 +265,6 @@
             background: rgba(218, 165, 32, 0.05);
         }
 
-        /* Status Badges */
         .status-badge {
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
@@ -288,7 +283,6 @@
             color: #4ade80;
         }
 
-        /* Action Buttons */
         .action-btn {
             padding: 0.5rem 1rem;
             border: none;
@@ -298,6 +292,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .action-btn.view {
@@ -320,7 +315,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* Form Card */
         .form-card {
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
@@ -391,13 +385,6 @@
             display: none;
         }
 
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
         .btn {
             padding: 1rem 2rem;
             border: none;
@@ -428,7 +415,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: flex;
@@ -463,27 +449,8 @@
                 gap: 1rem;
             }
 
-            .table-container {
-                overflow-x: auto;
-            }
-
-            table {
-                min-width: 800px;
-            }
-
-            th, td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.85rem;
-            }
-
             .form-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .action-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-                margin-bottom: 0.5rem;
             }
 
             .section-header h2 {
@@ -504,23 +471,16 @@
                 padding: 0.8rem 1.5rem;
                 font-size: 0.9rem;
             }
-
-            th, td {
-                padding: 0.6rem 0.4rem;
-                font-size: 0.8rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Button -->
     <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
         <span></span>
         <span></span>
         <span></span>
     </button>
 
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-admin">
             <h2>ARMANI</h2>
@@ -567,9 +527,7 @@
         </ul>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Top Bar -->
         <div class="top-bar">
             <div class="welcome">
                 <h1>Welcome Back, Admin!</h1>
@@ -584,7 +542,6 @@
             </div>
         </div>
 
-        <!-- Dashboard Section -->
         <div id="dashboard" class="content-section active">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -671,7 +628,6 @@
             </div>
         </div>
 
-        <!-- Add Car Section -->
         <div id="add-car" class="content-section">
             <div class="section-header">
                 <h2>Add New Car</h2>
@@ -680,7 +636,7 @@
 
             <div class="form-card">
                 <h3 style="color: #DAA520; margin-bottom: 1.5rem;">Basic Information</h3>
-                <form onsubmit="handleAddCar(event)">
+                <form onsubmit="event.preventDefault(); alert('Car added successfully!');">
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Make *</label>
@@ -759,18 +715,13 @@
                     </div>
 
                     <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                        <button type="submit" class="btn btn-primary">
-                            ✅ Add Car
-                        </button>
-                        <button type="reset" class="btn btn-secondary">
-                            🔄 Reset Form
-                        </button>
+                        <button type="submit" class="btn btn-primary">✅ Add Car</button>
+                        <button type="reset" class="btn btn-secondary">🔄 Reset Form</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Manage Cars Section -->
         <div id="manage-cars" class="content-section">
             <div class="section-header">
                 <h2>Manage Cars</h2>
@@ -820,7 +771,6 @@
             </div>
         </div>
 
-        <!-- Test Drives Section -->
         <div id="test-drives" class="content-section">
             <div class="section-header">
                 <h2>Test Drive Requests</h2>
@@ -855,12 +805,23 @@
                                 <button class="action-btn delete">Reject</button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>#TD002</td>
+                            <td>Jane Smith</td>
+                            <td>jane@email.com</td>
+                            <td>+254 711 111</td>
+                            <td>BMW M5</td>
+                            <td>2025-12-12</td>
+                            <td><span class="status-badge status-approved">Approved</span></td>
+                            <td>
+                                <button class="action-btn view">View Details</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Purchases Section -->
         <div id="purchases" class="content-section">
             <div class="section-header">
                 <h2>Purchase Requests</h2>
@@ -892,265 +853,7 @@
                             <td><span class="status-badge status-pending">Pending</span></td>
                             <td>
                                 <button class="action-btn view" style="background: #4ade80;">Approve</button>
-                                <button class="action-btn delete">Reject
-                            <td><button class="action-btn view">View</button></td>
-                        </tr>
-                        <tr>
-                            <td>Purchase</td>
-                            <td>Jane Smith</td>
-                            <td>BMW M5</td>
-                            <td>2025-12-07</td>
-                            <td><span class="status-badge status-approved">Approved</span></td>
-                            <td><button class="action-btn view">View</button></td>
-                        </tr>
-                        <tr>
-                            <td>Review</td>
-                            <td>Mike Johnson</td>
-                            <td>Tesla Model 3</td>
-                            <td>2025-12-06</td>
-                            <td><span class="status-badge status-approved">Published</span></td>
-                            <td><button class="action-btn view">View</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Add Car Section -->
-        <div id="add-car" class="content-section">
-            <div class="section-header">
-                <h2>Add New Car</h2>
-                <p>Fill in the details to add a new vehicle to inventory</p>
-            </div>
-
-            <div class="form-card">
-                <h3 style="color: #DAA520; margin-bottom: 1.5rem;">Basic Information</h3>
-                <form onsubmit="handleAddCar(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Make *</label>
-                            <input type="text" required placeholder="e.g., Lexus">
-                        </div>
-                        <div class="form-group">
-                            <label>Model *</label>
-                            <input type="text" required placeholder="e.g., LX600">
-                        </div>
-                        <div class="form-group">
-                            <label>Year *</label>
-                            <input type="number" required placeholder="2024">
-                        </div>
-                        <div class="form-group">
-                            <label>Price (KSH) *</label>
-                            <input type="number" required placeholder="45000000">
-                        </div>
-                        <div class="form-group">
-                            <label>Category *</label>
-                            <select required>
-                                <option value="">Select Category</option>
-                                <option>Luxury SUV</option>
-                                <option>Sport Car</option>
-                                <option>Classic Car</option>
-                                <option>Electric Car</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Color *</label>
-                            <input type="text" required placeholder="e.g., Black">
-                        </div>
-                        <div class="form-group">
-                            <label>Engine *</label>
-                            <input type="text" required placeholder="e.g., 5.0L V8">
-                        </div>
-                        <div class="form-group">
-                            <label>Horsepower</label>
-                            <input type="text" placeholder="e.g., 409 HP">
-                        </div>
-                        <div class="form-group">
-                            <label>Transmission</label>
-                            <input type="text" placeholder="e.g., Automatic">
-                        </div>
-                        <div class="form-group">
-                            <label>Mileage</label>
-                            <input type="text" placeholder="e.g., 0 km">
-                        </div>
-                        <div class="form-group full-width">
-                            <label>Description</label>
-                            <textarea rows="4" placeholder="Enter car description..."></textarea>
-                        </div>
-                    </div>
-
-                    <h3 style="color: #DAA520; margin: 2rem 0 1.5rem;">Upload Images</h3>
-                    <div class="form-group full-width">
-                        <div class="file-upload" onclick="document.getElementById('carImages').click()">
-                            <input type="file" id="carImages" multiple accept="image/*" onchange="previewImages(event)">
-                            <div class="file-upload-icon">📸</div>
-                            <p>Click to upload car images</p>
-                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">
-                                Support: JPG, PNG (Max 10 images)
-                            </p>
-                        </div>
-                        <div id="imagePreview" class="preview-grid"></div>
-                    </div>
-
-                    <h3 style="color: #DAA520; margin: 2rem 0 1.5rem;">Upload Video (Optional)</h3>
-                    <div class="form-group full-width">
-                        <div class="file-upload" onclick="document.getElementById('carVideo').click()">
-                            <input type="file" id="carVideo" accept="video/*">
-                            <div class="file-upload-icon">🎥</div>
-                            <p>Click to upload car video</p>
-                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">
-                                Support: MP4, MOV (Max 100MB)
-                            </p>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary">
-                            ✅ Add Car
-                        </button>
-                        <button type="reset" class="btn btn-secondary">
-                            🔄 Reset Form
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Manage Cars Section -->
-        <div id="manage-cars" class="content-section">
-            <div class="section-header">
-                <h2>Manage Cars</h2>
-                <p>View, edit, or delete existing vehicles</p>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Car</th>
-                            <th>Year</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><div style="width:50px;height:50px;background:rgba(218,165,32,0.2);border-radius:8px;"></div></td>
-                            <td>Lexus LX600</td>
-                            <td>2024</td>
-                            <td>KSH 45M</td>
-                            <td>Luxury SUV</td>
-                            <td><span class="status-badge status-approved">Available</span></td>
-                            <td>
-                                <button class="action-btn edit" onclick="alert('Edit car details')">Edit</button>
-                                <button class="action-btn delete" onclick="confirmDelete()">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><div style="width:50px;height:50px;background:rgba(218,165,32,0.2);border-radius:8px;"></div></td>
-                            <td>BMW M5</td>
-                            <td>2024</td>
-                            <td>KSH 25M</td>
-                            <td>Sport Car</td>
-                            <td><span class="status-badge status-approved">Available</span></td>
-                            <td>
-                                <button class="action-btn edit" onclick="alert('Edit car details')">Edit</button>
-                                <button class="action-btn delete" onclick="confirmDelete()">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Test Drives Section -->
-        <div id="test-drives" class="content-section">
-            <div class="section-header">
-                <h2>Test Drive Requests</h2>
-                <p>Manage customer test drive bookings</p>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Car</th>
-                            <th>Preferred Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#TD001</td>
-                            <td>John Doe</td>
-                            <td>john@email.com</td>
-                            <td>+254 700 000 000</td>
-                            <td>Lexus LX600</td>
-                            <td>2025-12-10</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>
-                                <button class="action-btn view" style="background: #4ade80;" onclick="approveRequest('test-drive')">Approve</button>
-                                <button class="action-btn delete" onclick="rejectRequest('test-drive')">Reject</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#TD002</td>
-                            <td>Jane Smith</td>
-                            <td>jane@email.com</td>
-                            <td>+254 711 111 111</td>
-                            <td>BMW M5</td>
-                            <td>2025-12-12</td>
-                            <td><span class="status-badge status-approved">Approved</span></td>
-                            <td>
-                                <button class="action-btn view">View Details</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Purchases Section -->
-        <div id="purchases" class="content-section">
-            <div class="section-header">
-                <h2>Purchase Requests</h2>
-                <p>Manage vehicle purchase transactions</p>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer</th>
-                            <th>Car</th>
-                            <th>Price</th>
-                            <th>Payment Method</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#PR001</td>
-                            <td>Mike Johnson</td>
-                            <td>Tesla Model 3</td>
-                            <td>KSH 20M</td>
-                            <td>Bank Transfer</td>
-                            <td>2025-12-08</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>
-                                <button class="action-btn view" style="background: #4ade80;" onclick="approveRequest('purchase')">Approve</button>
-                                <button class="action-btn delete" onclick="rejectRequest('purchase')">Reject</button>
+                                <button class="action-btn delete">Reject</button>
                             </td>
                         </tr>
                         <tr>
@@ -1158,7 +861,7 @@
                             <td>Sarah Williams</td>
                             <td>Porsche 911</td>
                             <td>KSH 35M</td>
-                            <td>Loan Financing</td>
+                            <td>Loan</td>
                             <td>2025-12-07</td>
                             <td><span class="status-badge status-approved">Completed</span></td>
                             <td>
@@ -1170,7 +873,6 @@
             </div>
         </div>
 
-        <!-- Insurance Section -->
         <div id="insurance" class="content-section">
             <div class="section-header">
                 <h2>Insurance Management</h2>
@@ -1336,3 +1038,4 @@
 </body>
 
 </html>
+
