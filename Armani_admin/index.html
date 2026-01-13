@@ -4,11 +4,521 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Armani Car Dealers</title>
-    <link rel="stylesheet" href="style3.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #DAA520;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(218, 165, 32, 0.2);
+            padding: 2rem 0;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .logo-admin {
+            text-align: center;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .logo-admin h2 {
+            font-size: 2rem;
+            color: #DAA520;
+            letter-spacing: 3px;
+        }
+
+        .logo-admin p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .menu-item:hover {
+            background: rgba(218, 165, 32, 0.1);
+            color: #DAA520;
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(218, 165, 32, 0.1));
+            color: #DAA520;
+            border-left: 3px solid #DAA520;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome h1 {
+            font-size: 1.8rem;
+            color: #DAA520;
+            margin-bottom: 0.3rem;
+        }
+
+        .welcome p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: #DAA520;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #DAA520;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.5;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(218, 165, 32, 0.1);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            color: #DAA520;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        tr:hover {
+            background: rgba(218, 165, 32, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #FFA500;
+        }
+
+        .status-approved {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        .action-btn.view {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: #DAA520;
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form Card */
+        .form-card {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: #DAA520;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #DAA520;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(218, 165, 32, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #DAA520;
+            background: rgba(218, 165, 32, 0.05);
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(218, 165, 32, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .welcome h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .welcome h1 {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.6rem 0.4rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -138,6 +648,251 @@
                             <td>Lexus LX600</td>
                             <td>2025-12-08</td>
                             <td><span class="status-badge status-pending">Pending</span></td>
+                            <td><button class="action-btn view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Purchase</td>
+                            <td>Jane Smith</td>
+                            <td>BMW M5</td>
+                            <td>2025-12-07</td>
+                            <td><span class="status-badge status-approved">Approved</span></td>
+                            <td><button class="action-btn view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Review</td>
+                            <td>Mike Johnson</td>
+                            <td>Tesla Model 3</td>
+                            <td>2025-12-06</td>
+                            <td><span class="status-badge status-approved">Published</span></td>
+                            <td><button class="action-btn view">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Car Section -->
+        <div id="add-car" class="content-section">
+            <div class="section-header">
+                <h2>Add New Car</h2>
+                <p>Fill in the details to add a new vehicle to inventory</p>
+            </div>
+
+            <div class="form-card">
+                <h3 style="color: #DAA520; margin-bottom: 1.5rem;">Basic Information</h3>
+                <form onsubmit="handleAddCar(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Make *</label>
+                            <input type="text" required placeholder="e.g., Lexus">
+                        </div>
+                        <div class="form-group">
+                            <label>Model *</label>
+                            <input type="text" required placeholder="e.g., LX600">
+                        </div>
+                        <div class="form-group">
+                            <label>Year *</label>
+                            <input type="number" required placeholder="2024">
+                        </div>
+                        <div class="form-group">
+                            <label>Price (KSH) *</label>
+                            <input type="number" required placeholder="45000000">
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select required>
+                                <option value="">Select Category</option>
+                                <option>Luxury SUV</option>
+                                <option>Sport Car</option>
+                                <option>Classic Car</option>
+                                <option>Electric Car</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Color *</label>
+                            <input type="text" required placeholder="e.g., Black">
+                        </div>
+                        <div class="form-group">
+                            <label>Engine *</label>
+                            <input type="text" required placeholder="e.g., 5.0L V8">
+                        </div>
+                        <div class="form-group">
+                            <label>Horsepower</label>
+                            <input type="text" placeholder="e.g., 409 HP">
+                        </div>
+                        <div class="form-group">
+                            <label>Transmission</label>
+                            <input type="text" placeholder="e.g., Automatic">
+                        </div>
+                        <div class="form-group">
+                            <label>Mileage</label>
+                            <input type="text" placeholder="e.g., 0 km">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description</label>
+                            <textarea rows="4" placeholder="Enter car description..."></textarea>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #DAA520; margin: 2rem 0 1.5rem;">Upload Images</h3>
+                    <div class="form-group full-width">
+                        <div class="file-upload" onclick="document.getElementById('carImages').click()">
+                            <input type="file" id="carImages" multiple accept="image/*">
+                            <div class="file-upload-icon">📸</div>
+                            <p>Click to upload car images</p>
+                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">
+                                Support: JPG, PNG (Max 10 images)
+                            </p>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #DAA520; margin: 2rem 0 1.5rem;">Upload Video (Optional)</h3>
+                    <div class="form-group full-width">
+                        <div class="file-upload" onclick="document.getElementById('carVideo').click()">
+                            <input type="file" id="carVideo" accept="video/*">
+                            <div class="file-upload-icon">🎥</div>
+                            <p>Click to upload car video</p>
+                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">
+                                Support: MP4, MOV (Max 100MB)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <button type="submit" class="btn btn-primary">
+                            ✅ Add Car
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            🔄 Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Manage Cars Section -->
+        <div id="manage-cars" class="content-section">
+            <div class="section-header">
+                <h2>Manage Cars</h2>
+                <p>View, edit, or delete existing vehicles</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Car</th>
+                            <th>Year</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div style="width:50px;height:50px;background:rgba(218,165,32,0.2);border-radius:8px;"></div></td>
+                            <td>Lexus LX600</td>
+                            <td>2024</td>
+                            <td>KSH 45M</td>
+                            <td>Luxury SUV</td>
+                            <td><span class="status-badge status-approved">Available</span></td>
+                            <td>
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:50px;height:50px;background:rgba(218,165,32,0.2);border-radius:8px;"></div></td>
+                            <td>BMW M5</td>
+                            <td>2024</td>
+                            <td>KSH 25M</td>
+                            <td>Sport Car</td>
+                            <td><span class="status-badge status-approved">Available</span></td>
+                            <td>
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Test Drives Section -->
+        <div id="test-drives" class="content-section">
+            <div class="section-header">
+                <h2>Test Drive Requests</h2>
+                <p>Manage customer test drive bookings</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Car</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#TD001</td>
+                            <td>John Doe</td>
+                            <td>john@email.com</td>
+                            <td>+254 700 000</td>
+                            <td>Lexus LX600</td>
+                            <td>2025-12-10</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn view" style="background: #4ade80;">Approve</button>
+                                <button class="action-btn delete">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Purchases Section -->
+        <div id="purchases" class="content-section">
+            <div class="section-header">
+                <h2>Purchase Requests</h2>
+                <p>Manage vehicle purchase transactions</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Car</th>
+                            <th>Price</th>
+                            <th>Method</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#PR001</td>
+                            <td>Mike Johnson</td>
+                            <td>Tesla Model 3</td>
+                            <td>KSH 20M</td>
+                            <td>Bank</td>
+                            <td>2025-12-08</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn view" style="background: #4ade80;">Approve</button>
+                                <button class="action-btn delete">Reject
                             <td><button class="action-btn view">View</button></td>
                         </tr>
                         <tr>
@@ -579,4 +1334,5 @@
 
     <script src="admin-script.js"></script>
 </body>
+
 </html>
