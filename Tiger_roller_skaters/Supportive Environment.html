@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supportive Environment - Tiger Skaters</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    :root {
+      --bg-color: #f8f9fc;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --primary-color: #003366;
+      --primary-hover: #0055aa;
+      --accent-color: #00b4d8;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --scroll-thumb: #00b4d8;
+      --scroll-track: transparent;
+    }
+
+    .dark-theme {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+      --primary-color: #ff6600;
+      --primary-hover: #ff8833;
+      --accent-color: #90e0ef;
+      --shadow-color: rgba(255, 255, 255, 0.1);
+      --scroll-thumb: #90e0ef;
+      --scroll-track: transparent;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 40px 20px;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      /* Custom scrollbar - Firefox */
+      scrollbar-width: thin;
+      scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+    }
+
+    /* Custom scrollbar - WebKit */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scroll-track);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scroll-thumb);
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #52d1f4;
+    }
+
+    /* Dark mode toggle */
+    .toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 60px;
+      height: 30px;
+      background-color: #ffffff;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      z-index: 2000;
+    }
+
+    .toggle-circle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background-color: #00b4d8;
+      border-radius: 50%;
+      transition: left 0.3s;
+    }
+
+    .dark-theme .toggle {
+      background-color: #000;
+    }
+
+    .dark-theme .toggle-circle {
+      left: 33px;
+      background-color: #90e0ef;
+    }
+
+    /* Header section with gradient background */
+    .header-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      padding: 60px 30px;
+      border-radius: 20px;
+      margin-bottom: 50px;
+      box-shadow: 0 8px 25px var(--shadow-color);
+      text-align: center;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    p.intro {
+      color: #ffffff;
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.2em;
+      line-height: 1.8;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 50px auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      width: 320px;
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow-color);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px var(--shadow-color);
+      border-color: var(--accent-color);
+    }
+
+    .card-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .card h3 {
+      color: var(--primary-color);
+      font-size: 1.6em;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card p {
+      font-size: 1.05em;
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 60px;
+      padding-bottom: 40px;
+    }
+
+    .footer-link a {
+      text-decoration: none;
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 35px;
+      border-radius: 50px;
+      transition: all 0.3s;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: inline-block;
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    .footer-link a:hover {
+      background: var(--primary-hover);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px var(--shadow-color);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .header-section {
+        padding: 40px 20px;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      p.intro {
+        font-size: 1em;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 400px;
+        padding: 25px 20px;
+      }
+
+      .card h3 {
+        font-size: 1.4em;
+      }
+
+      .card p {
+        font-size: 1em;
+      }
+
+      .cards-container {
+        gap: 20px;
+      }
+
+      .footer-link {
+        margin-top: 40px;
+      }
+
+      .footer-link a {
+        padding: 12px 28px;
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.6em;
+      }
+
+      p.intro {
+        font-size: 0.95em;
+      }
+
+      .card-icon {
+        font-size: 2.5em;
+      }
+
+      .card h3 {
+        font-size: 1.3em;
+      }
+
+      .card p {
+        font-size: 0.95em;
+      }
+    }
+
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .toggle,
+      .toggle-circle,
+      .footer-link a,
+      body {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dark Theme Toggle -->
+  <div class="toggle" onclick="toggleTheme()" aria-label="Toggle dark theme">
+    <div class="toggle-circle"></div>
+  </div>
+
+  <div class="header-section">
+    <h1>Supportive Environment</h1>
+    <p class="intro">
+      At Tiger Skaters, we believe skating is more than just movement — it's a path to confidence, connection, and community.
+      Our coaches and peers create a space where everyone feels welcome, supported, and encouraged to grow at their own pace.
+    </p>
+  </div>
+
+  <div class="cards-container">
+    <div class="card">
+      <span class="card-icon">🤝</span>
+      <h3>Teamwork</h3>
+      <p>We learn together, fall together, and rise stronger — always supporting each other on and off the rink.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">💪</span>
+      <h3>Confidence</h3>
+      <p>Through skating, our students build self-belief and courage that extends far beyond the sport.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">🌍</span>
+      <h3>Inclusion</h3>
+      <p>Everyone belongs — regardless of skill level, background, or ability. Every skater matters here.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">✨</span>
+      <h3>Encouragement</h3>
+      <p>Our environment is built on positivity — we cheer for every small win and celebrate every big leap.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">📈</span>
+      <h3>Growth</h3>
+      <p>Each session is a step toward mastery, not just of skating but of patience, discipline, and joy.</p>
+    </div>
+  </div>
+
+  <div class="footer-link">
+    <a href="Services.html">← Back to Services</a>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    function toggleTheme() {
+      document.body.classList.toggle("dark-theme");
+      // Save preference to localStorage
+      const isDark = document.body.classList.contains("dark-theme");
+      localStorage.setItem("darkMode", isDark);
+    }
+
+    // Load saved theme preference
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("darkMode");
+      if (savedTheme === "true") {
+        document.body.classList.add("dark-theme");
+      }
+    });
+
+    // Fade-in effect on scroll
+    const cards = document.querySelectorAll('.card');
+
+    function showCards() {
+      const trigger = window.innerHeight / 1.1;
+      cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if (top < trigger) {
+          card.classList.add('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', showCards);
+    showCards(); // initial check
+  </script>
+</body>
+</html>

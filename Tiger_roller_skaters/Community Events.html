@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Events - Tega Skaters</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f8f9fc;
+      color: #333;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #003366;
+    }
+
+    .events-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s, opacity 0.5s ease;
+      width: 260px;
+      position: relative;
+    }
+
+    .event-card.fade-out {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .event-image {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .event-content {
+      padding: 15px;
+    }
+
+    .event-title {
+      color: #003366;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .event-date {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .event-note {
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .countdown {
+      font-size: 14px;
+      color: #d9534f;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .view-more-btn {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .view-more-btn:hover {
+      background-color: #0055aa;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .close-btn {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+      color: #003366;
+    }
+
+    .no-events {
+      text-align: center;
+      color: #666;
+      font-size: 18px;
+      margin-top: 50px;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: #003366;
+      font-size: 18px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Community Events</h1>
+
+  <p class="loading" id="loadingMsg">Loading events...</p>
+  <div class="events-container" id="eventsContainer"></div>
+  <p class="no-events" id="noEventsMsg">No upcoming events available yet.</p>
+
+  <!-- Modal -->
+  <div class="modal" id="eventModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDate"></p>
+      <img id="modalImage" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin:10px 0;" alt="Event Image" />
+      <p id="modalNote"></p>
+    </div>
+  </div>
+
+  <script>
+    /*
+    const eventsContainer = document.getElementById('eventsContainer');
+    const noEventsMsg = document.getElementById('noEventsMsg');
+    const loadingMsg = document.getElementById('loadingMsg');
+    
+    const modal = document.getElementById('eventModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalImage = document.getElementById('modalImage');
+    const modalNote = document.getElementById('modalNote');
+
+    let events = []; // Store events globally for modal access
+
+    // Fetch events from MySQL API
+    fetch("http://localhost/Tiger_admin/list_events.php")
+      .then(res => res.json())
+      .then(data => {
+        loadingMsg.style.display = "none";
+
+        if (!data.ok || !data.events || data.events.length === 0) {
+          noEventsMsg.style.display = "block";
+          return;
+        }
+
+        events = data.events; // Store events for modal
+        noEventsMsg.style.display = "none";
+
+        events.forEach((event, index) => {
+          createEventCard(event, index);
+        });
+      })
+      .catch(err => {
+        console.error("Failed to load events:", err);
+        loadingMsg.style.display = "none";
+        noEventsMsg.textContent = "Failed to load events. Please try again later.";
+        noEventsMsg.style.display = "block";
+      });
+
+    function createEventCard(event, index) {
+      const card = document.createElement('div');
+      card.className = 'event-card';
+      card.id = `event-card-${index}`;
+
+      // Parse event date from MySQL DATETIME format
+      const eventDate = new Date(event.event_date).getTime();
+      
+      // Format date for display
+      const displayDate = new Date(event.event_date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Get description (truncate if too long)
+      const description = event.description || 'No description available';
+      const shortDesc = description.length > 70 ? description.substring(0, 70) + '...' : description;
+
+      // Build image path (adjust based on your server structure)
+      const imagePath = `http://localhost/Tiger_admin/${event.image_path}`;
+
+      card.innerHTML = `
+        <img src="${imagePath}" class="event-image" alt="${event.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'260\' height=\'140\'%3E%3Crect fill=\'%23ddd\' width=\'260\' height=\'140\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\'%3ENo Image%3C/text%3E%3C/svg%3E'">
+        <div class="event-content">
+          <h3 class="event-title">${event.title}</h3>
+          <p class="event-date">${displayDate}</p>
+          <p class="event-note">${shortDesc}</p>
+          <p class="countdown" id="countdown-${index}"></p>
+          <button class="view-more-btn" onclick="openModal(${index})">View More</button>
+        </div>
+      `;
+      
+      eventsContainer.appendChild(card);
+
+      // Start countdown timer
+      startCountdown(index, eventDate);
+    }
+
+    function startCountdown(index, eventDate) {
+      const countdownEl = document.getElementById(`countdown-${index}`);
+      const card = document.getElementById(`event-card-${index}`);
+
+      const countdown = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+
+        // Event has passed - fade out and remove
+        if (distance < 0) {
+          clearInterval(countdown);
+          if (card) {
+            card.classList.add('fade-out');
+            setTimeout(() => {
+              card.remove();
+              // Check if no events remain
+              if (eventsContainer.children.length === 0) {
+                noEventsMsg.style.display = 'block';
+              }
+            }, 500);
+          }
+          return;
+        }
+
+        // Calculate time remaining
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (countdownEl) {
+          countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+        }
+      }, 1000);
+    }
+
+    function openModal(index) {
+      if (!events[index]) return;
+      
+      const event = events[index];
+      
+      const displayDate = new Date(event.event_date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const imagePath = `http://localhost/Tiger_admin/${event.image_path}`;
+
+      modalTitle.textContent = event.title;
+      modalDate.textContent = displayDate;
+      modalImage.src = imagePath;
+      modalNote.textContent = event.description || 'No description available';
+      modal.style.display = 'flex';
+    }
+
+    // Close modal handlers
+    closeModal.onclick = function() {
+      modal.style.display = 'none';
+    };
+
+    window.onclick = function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+    *//////////
+  </script>
+</body>
+</html>

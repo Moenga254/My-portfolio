@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tega Skaters — Skating Classes</title>
+  <style>
+    /* BASE & THEME */
+    :root{
+      --bg-color: #f8f9fc;
+      --card-bg: #ffffff;
+      --accent: #0b5ed7; /* blue accent */
+      --muted: #6b7280;
+      --accent-dark: #084ea8;
+      --glass: rgba(255,255,255,0.8);
+      --radius: 14px;
+      --container-w: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f6f8fb 0%,var(--bg-color) 100%);
+      color:#0f1724;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    .wrap{max-width:var(--container-w);margin:36px auto;padding:24px}
+
+    /* HERO */
+    .hero{
+      background: linear-gradient(90deg, rgba(11,94,215,0.06), rgba(8,78,168,0.03));
+      border-radius:var(--radius);
+      padding:28px;
+      display:flex;gap:20px;align-items:center;justify-content:space-between;
+      box-shadow: 0 6px 18px rgba(11,94,215,0.06);
+    }
+    .hero .left{flex:1;min-width:220px}
+    .kicker{display:inline-block;background:#e8f0ff;color:var(--accent-dark);padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px}
+    h1{font-size:28px;margin:14px 0 6px}
+    p.lead{color:var(--muted);margin-bottom:12px}
+    .cta-row{display:flex;gap:12px;align-items:center}
+    .btn{display:inline-block;padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none}
+    .btn-primary{background:var(--accent);color:white}
+    .btn-ghost{background:transparent;border:2px solid rgba(11,94,215,0.12);color:var(--accent-dark)}
+
+    /* GRID */
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:22px}
+    .card{background:var(--card-bg);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(12,16,24,0.04)}
+
+    /* LISTS */
+    ul.clean{list-style:none;padding-left:0}
+    ul.clean li{padding:8px 0;border-bottom:1px dashed rgba(15,23,36,0.04)}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* CLASS BADGES */
+    .class-grid{display:flex;flex-direction:column;gap:10px}
+    .class-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);}
+    .class-item h3{margin:0;font-size:16px}
+    .pill{font-size:13px;padding:6px 9px;border-radius:999px;background:#eef6ff;color:var(--accent-dark);font-weight:700}
+
+    /* SIDEBAR */
+    .sidebar .meta{display:flex;flex-direction:column;gap:10px}
+    .meta .row{display:flex;justify-content:space-between;align-items:center}
+
+    /* STICKY BOOK BUTTON */
+    .book-fixed{position:fixed;right:18px;bottom:18px;z-index:1200}
+    .book-fixed .btn{box-shadow:0 10px 30px rgba(11,94,215,0.16)}
+
+    /* RESPONSIVE */
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .hero{flex-direction:column;align-items:flex-start}
+      .wrap{padding:14px;margin:16px}
+    }
+
+    /* small helpers */
+    .small{font-size:13px}
+    .center{display:flex;align-items:center;gap:8px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="left">
+        <span class="kicker">Skating Classes</span>
+        <h1>Learn to Skate — Confidence, Balance & Fun</h1>
+        <p class="lead">Our school-based programs make skating accessible, safe, and joyful for students. We teach fundamentals, build confidence, and help each skater progress at their own pace.</p>
+        <div class="cta-row">
+          <a href="user.html" class="btn btn-primary">Book a Session</a>
+          <a href="#classes" class="btn btn-ghost">See Class Types</a>
+        </div>
+      </div>
+      <div class="right" style="min-width:260px;">
+        <div style="background:linear-gradient(180deg,#fff,#f5fbff);padding:14px;border-radius:12px;">
+          <p class="small muted">Perfect for schools & community groups</p>
+          <h3 style="margin:8px 0 4px">Group Sessions</h3>
+          <p class="muted small">We bring coaches and equipment to your school — flexible times and age-appropriate groups.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2 style="margin-top:0">What You’ll Learn</h2>
+        <ul class="clean">
+          <li><strong>Basic Skills:</strong> balancing, starting, stopping, and safe falling techniques.</li>
+          <li><strong>Intermediate Techniques:</strong> smooth gliding, controlled turns, posture and stride.</li>
+          <li><strong>Advanced Moves:</strong> speed basics, simple jumps, and performance routines.</li>
+          <li><strong>Safety & Gear:</strong> helmet fitting, wrist/elbow/knee protection, and warm-up routines.</li>
+        </ul>
+
+        <h2 style="margin-top:18px">Class Categories</h2>
+        <div id="classes" class="class-grid">
+          <div class="class-item">
+            <div>
+              <h3>Beginner — 1 hour</h3>
+              <p class="small muted">For first-timers: focus on balance and safe movement.</p>
+            </div>
+            <div class="pill">Ksh 1,200 each student</div>
+          </div>
+
+          <div class="class-item">
+            <div>
+              <h3>Intermediate — 1 hour</h3>
+              <p class="small muted">Build control, speed, and smooth turns.</p>
+            </div>
+            <div class="pill">Ksh 1,200 each student</div>
+          </div>
+
+          <div class="class-item">
+            <div>
+              <h3>Advanced & Performance — 1 hour</h3>
+              <p class="small muted">Higher-speed drills, choreography, and jump basics.</p>
+            </div>
+            <div class="pill">Ksh 1,200 each student</div>
+          </div>
+
+          <div class="class-item">
+            <div>
+              <h3>Kids' Club (5–12 yrs)</h3>
+              <p class="small muted">Games-based learning, teamwork & confidence building.</p>
+            </div>
+            <div class="pill">School rates available</div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px">Why Tiger Skaters</h2>
+        <ul class="clean">
+          <li><strong>Experienced Coaches:</strong> friendly instructors who work with kids and schools.</li>
+          <li><strong>School-friendly Programs:</strong> we run classes during PE, after-school, and weekend clinics.</li>
+          <li><strong>Equipment & Safety:</strong> helmets and pads provided on request; we emphasise safe progression.</li>
+          <li><strong>Confidence & Community:</strong> skaters grow physically and socially — teamwork and fun are core.</li>
+        </ul>
+
+        <div style="margin-top:18px;display:flex;gap:12px">
+          <a class="btn btn-primary" href="user.html">Book a Class</a>
+        </div>
+      </section>
+
+      <aside class="card sidebar">
+        <div class="meta">
+          <div>
+            <h3 style="margin:0 0 6px">Quick Info</h3>
+            <p class="small muted">Sessions can be scheduled at your school or at partner venues. Group and private lessons available.</p>
+          </div>
+
+          <div class="row" style="margin-top:8px">
+            <div>
+              <div class="small muted">Duration</div>
+              <div style="font-weight:700">45–75 mins</div>
+            </div>
+            <div>
+              <div class="small muted">Age</div>
+              <div style="font-weight:700">5 + years</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h4 style="margin:0 0 8px">School Packages</h4>
+            <p class="small muted">Custom pricing for in-school programs — ask about bulk rates and free demo sessions.</p>
+          </div>
+
+          <div style="margin-top:14px">
+            <h4 style="margin:0 0 8px">Safety Note</h4>
+            <p class="small muted">All participants should come in closed shoes; helmets & pads recommended. We can supply protective gear if needed.</p>
+          </div>
+
+          <div style="margin-top:18px">
+            <h4 style="margin:0 0 8px">Contact</h4>
+            <p class="small muted">Joseph — WhatsApp: +254716803934<br/>Email: abdulmellow@gmail.com</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Sticky booking button -->
+  <div class="book-fixed">
+    <a href="user.html" class="btn btn-primary">Book Now</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Company Profile</title>
+  <style>
+    /* RESET DEFAULTS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    /* THEME VARIABLES */
+    :root {
+      --bg-color: #f8f9fc;
+      --text-color: #000000e2;
+      --accent: #00b4d8;
+      --accent-contrast: #0d1b2a;
+      --surface: #f5f7fa;
+      --overlay: rgba(0,0,0,0.7);
+      --card-bg: #ffffff;
+      --link: #0ea5e9;
+      --border: rgba(0,0,0,0.1);
+      --shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .dark-theme {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --accent: #00b4d8;
+      --accent-contrast: #081018;
+      --surface: #1a1a1a;
+      --overlay: rgba(0,0,0,0.6);
+      --card-bg: #1e1e1e;
+      --link: #7dd3fc;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    /* BODY */
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ====== NAVBAR (sticky to top like Gallery.html) ====== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #0d1b2a;
+      padding: 12px 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+    .navbar .logo {
+      color: var(--accent);
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      user-select: none;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li { margin: 0; padding: 0; }
+    .nav-links a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .nav-links a:hover {
+      background-color: var(--accent);
+      color: var(--accent-contrast);
+      transform: translateY(-1px);
+    }
+    .nav-links a.active {
+      background-color: var(--accent);
+      color: var(--accent-contrast);
+    }
+
+    /* Hamburger (mobile) */
+    .menu-toggle {
+      display: none;
+      position: relative;
+      width: 36px;
+      height: 28px;
+      cursor: pointer;
+    }
+    .menu-toggle .bar {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      height: 3px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .menu-toggle .bar:nth-child(1) { top: 5px; }
+    .menu-toggle .bar:nth-child(2) { top: 12px; }
+    .menu-toggle .bar:nth-child(3) { top: 19px; }
+    .menu-toggle.active .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .menu-toggle.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-toggle.active .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* CONTENT WRAPPER (add padding since navbar is now sticky) */
+    .content-wrapper {
+      padding: 30px 10%;
+    }
+
+    /* IMAGE CONTAINER */
+    .logo-container {
+      position: relative;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .logo-container svg {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .logo-container text {
+      fill: #ff6600;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+    .logo-container img {
+      border-radius: 50%;
+      width: 350px;
+      height: 350px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* HEADINGS */
+    h1 {
+      text-align: center;
+      color: #fe1919;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      text-align: center;
+      color: #070ec9;
+      margin-bottom: 15px;
+      font-size: 40px;
+    }
+    h3, h4, h5 {
+      color: #ff6600;
+      margin: 25px 0 10px;
+      border-left: 4px solid #ff6600;
+      padding-left: 10px;
+    }
+
+    /* PARAGRAPH */
+    p { margin-bottom: 15px; }
+
+    /* MISSION & VISION */
+    .mission-vision {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .mission, .vision {
+      width: 48%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      transition: background 0.4s;
+    }
+    .dark-theme .mission,
+    .dark-theme .vision {
+      background: #1e1e1e;
+      color: white;
+    }
+    .mission u, .vision u { color: #ff6600; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      background: #0d1b2a;
+      color: white;
+      padding: 40px 10px;
+      font-family: Arial, sans-serif;
+      margin-top: 40px;
+      border-radius: 8px;
+    }
+
+    /* DARK MODE TOGGLE - MOBILE OPTIMIZED */
+    .toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 50px;
+      height: 26px;
+      background-color: #fff;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      z-index: 2000;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+    .toggle-circle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      transition: left 0.3s;
+    }
+    .dark-theme .toggle { background-color: #000; }
+    .dark-theme .toggle-circle { left: 27px; background-color: #90e0ef; }
+
+    /* FLOATING BOOK SESSION BUTTON - MOBILE OPTIMIZED */
+    .book-btn {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      background-color: #0d1b2a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .book-btn:hover {
+      background-color: #1e6091;
+      transform: scale(1.05);
+    }
+
+    /* ===== Responsive (Mobile) ===== */
+    @media (max-width: 768px) {
+      .content-wrapper { padding: 20px 5%; }
+
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute;
+        top: 56px;
+        right: 0;
+        left: 0;
+        background: #0d1b2a;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 16px;
+        display: none;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; width: 100%; }
+
+      .mission-vision { flex-direction: column; }
+      .mission, .vision { width: 100%; }
+
+      .logo-container svg { width: 300px; height: 300px; }
+      .logo-container img { width: 280px; height: 280px; }
+
+      /* Mobile button adjustments */
+      .toggle {
+        width: 44px;
+        height: 24px;
+        top: 12px;
+        left: 12px;
+      }
+      .toggle-circle {
+        width: 18px;
+        height: 18px;
+      }
+      .dark-theme .toggle-circle {
+        left: 23px;
+      }
+      .book-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        bottom: 12px;
+        left: 12px;
+        border-radius: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .toggle {
+        width: 40px;
+        height: 22px;
+        top: 10px;
+        left: 10px;
+      }
+      .toggle-circle {
+        width: 16px;
+        height: 16px;
+      }
+      .dark-theme .toggle-circle {
+        left: 21px;
+      }
+      .book-btn {
+        padding: 7px 10px;
+        font-size: 12px;
+        bottom: 10px;
+        left: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar (sticky to top like Gallery.html) -->
+  <nav class="navbar" role="navigation" aria-label="Main">
+    <div class="logo" aria-label="Tiger Roller Skaters logo">🛼 TIGER ROLLER SKATERS</div>
+
+    <!-- Hamburger icon -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span class="bar" aria-hidden="true"></span>
+      <span class="bar" aria-hidden="true"></span>
+      <span class="bar" aria-hidden="true"></span>
+    </button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+      <li><a href="Services.html">Services</a></li>
+      <li><a href="Gallery.html">Gallery &amp; Testimonials</a></li>
+    </ul>
+  </nav>
+
+  <!-- Dark Theme Toggle -->
+  <button class="toggle" id="themeToggle" onclick="toggleTheme()" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+    <span class="toggle-circle" aria-hidden="true"></span>
+  </button>
+
+  <!-- Floating Book Session Button -->
+  <a href="user.html" class="book-btn">🛼 Book a Session</a>
+
+  <!-- CONTENT WRAPPER -->
+  <div class="content-wrapper">
+    <!-- LOGO WITH CIRCULAR TEXT -->
+    <div class="logo-container">
+      <svg width="400" height="400" viewBox="0 0 400 400">
+        <defs>
+          <path id="circlePath" d="M200,200 m-160,0 a160,160 0 1,1 320,0 a160,160 0 1,1 -320,0" />
+        </defs>
+       
+      </svg>
+      <img src="tiger roller skaters logo.png" alt="Tiger Rollers Logo">
+    </div>
+
+    <h1>COMPANY PROFILE</h1>
+    <h2><strong>TIGER ROLLER SKATERS</strong></h2>
+
+    <p>
+      Tiger Roller Skaters is a dynamic and vibrant skating
+      community based in Nairobi, Kenya.
+    </p>
+
+    <h3>INTRODUCTION</h3>
+    <p>
+      Tiger Roller Skaters is a dynamic and vibrant skating community based in Nairobi,
+      Kenya. Our mission is to foster a love for skating, promote an active lifestyle, and
+      create a supportive environment for skaters of all ages and skill levels.
+    </p>
+
+    <h4>ABOUT US</h4>
+    <p>
+      <b>Welcome to Tiger Roller Skaters!</b><br/>
+      At Tiger Roller Skaters, we are more than just a skating club — we are a family united
+      by our passion for the exhilarating world of skating.
+    </p>
+
+    <h5>VISION &amp; MISSION</h5>
+    <div class="mission-vision">
+      <div class="mission">
+        <h6><u>MISSION</u></h6>
+        <p>
+          Our mission is to inspire, nurture, and develop the skills of skaters in Nairobi
+          and beyond. We believe in promoting a healthy and active lifestyle through
+          skating, while emphasizing teamwork and sportsmanship.
+        </p>
+      </div>
+
+      <div class="vision">
+        <h6><u>VISION</u></h6>
+        <p>
+          We envision a community where skating is not just a sport but a way of life.
+          As we continue to grow, we aim to make skating accessible and enjoyable for everyone.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+<footer>
+  <h3 class="contact-title">Contact Us</h3>
+  <p style="margin: 6px 0;">
+    <a href="https://wa.me/254700056336" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" style="text-decoration: none; color: inherit;">
+      <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.0.0/whatsapp.svg" width="20" height="20" alt="WhatsApp" style="vertical-align: middle; margin-right: 5px; filter: invert(1);">
+      <strong>Joseph</strong> – +254 700 056 336 (Chat with us on WhatsApp)
+    </a>
+  </p>
+  <p style="margin: 6px 0;">📧 <a href="mailto:josephwachirasejo@gmail.com" aria-label="Send email to josephwachirasejo@gmail.com">josephwachirasejo@gmail.com</a></p>
+  <p style="margin: 6px 0;">📍 Nairobi, Kenya</p>
+  <p style="margin: 6px 0;">
+    <a href="https://www.instagram.com/roller_thenics" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+      <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.0.0/instagram.svg" width="20" height="20" alt="Instagram" style="vertical-align: middle; margin-right: 5px; filter: invert(1);">
+      Follow us on Instagram
+    </a>
+  </p>
+  <hr>
+  <p style="font-size: 14px; color: #caf0f8;">© 2025 Tiger Skaters. All rights reserved.</p>
+  <br>
+  <p><a class="book-link" href="user.html">Book a Session</a></p>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Utilities
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    // Theme handling (remember across pages via localStorage)
+    function applySavedTheme() {
+      const saved = localStorage.getItem('theme') || 'light';
+      const isDark = saved === 'dark';
+      document.body.classList.toggle('dark-theme', isDark);
+      const toggle = $('#themeToggle');
+      if (toggle) toggle.setAttribute('aria-checked', String(isDark));
+    }
+    function toggleTheme() {
+      const isDark = !document.body.classList.contains('dark-theme');
+      document.body.classList.toggle('dark-theme', isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const toggle = $('#themeToggle');
+      if (toggle) toggle.setAttribute('aria-checked', String(isDark));
+    }
+
+    // Mobile menu
+    function setupMenuToggle() {
+      const menuToggle = $('#menuToggle');
+      const navLinks = $('#navLinks');
+      if (!menuToggle || !navLinks) return;
+
+      const setExpanded = (val) => menuToggle.setAttribute('aria-expanded', String(val));
+
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        menuToggle.classList.toggle('active', isOpen);
+        setExpanded(isOpen);
+      });
+
+      // Close menu when a nav link is clicked (mobile)
+      navLinks.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target.tagName === 'A' && navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          menuToggle.classList.remove('active');
+          setExpanded(false);
+        }
+      });
+
+      // Keyboard accessibility: Enter/Space toggles
+      menuToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          menuToggle.click();
+        }
+      });
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      applySavedTheme();
+      setupMenuToggle();
+    });
+  </script>
+</body>
+</html>

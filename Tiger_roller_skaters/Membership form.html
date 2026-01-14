@@ -1,0 +1,113 @@
+<?php
+// ----------------------
+//  DATABASE CONNECTION
+// ----------------------
+$host = "localhost";
+$user = "root";  
+$pass = "";      
+$dbname = "your_database_name_here";  // <-- CHANGE THIS
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+// ----------------------
+//  HANDLE FORM SUBMISSION
+// ----------------------
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $fullname = $_POST["fullname"];
+    $email = $_POST["email"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Secure password
+    $national_id = $_POST["national_id"];
+    $phone = $_POST["phone"];
+
+    $sql = "INSERT INTO members (fullname, email, password, national_id, phone)
+            VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $fullname, $email, $password, $national_id, $phone);
+
+    if ($stmt->execute()) {
+        $message = "🎉 Registration successful!";
+    } else {
+        $message = "❌ Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+?>
+
+<!-- ----------------------
+      FRONTEND HTML
+----------------------- -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign up</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to bottom, #3db7eb, #e33f3f);
+            padding: 50px;
+            color: #fff;
+        }
+        form {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            background: #3c3ec6;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #24c797;
+        }
+        .msg {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+<h2 align="center">BECOME A TIGER ROLLER SKATER MEMBER</h2>
+
+<?php if ($message != ""): ?>
+    <p class="msg"><?= $message ?></p>
+<?php endif; ?>
+
+<form action="Membership.php" method="POST">
+    <input type="text" name="fullname" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="text" name="national_id" placeholder="National ID Number" required>
+    <input type="text" name="phone" placeholder="Phone Number" required>
+    <button type="submit">Sign Up</button>
+</form>
+
+</body>
+</html>
