@@ -411,6 +411,18 @@
                 font-size: 0.9rem;
             }
         }
+
+        .nav-link {
+  color: #bbb;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: #00ffcc;
+  border-bottom: 2px solid #00ffcc;
+  font-weight: 600;
+}
+
     </style>
 </head>
 <body>
@@ -422,11 +434,11 @@
         <h2>Kevin Moenga.</h2>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="About.html">About</a></li>
-                <li><a href="Skills.html">Skills</a></li>
-                <li><a href="Projects.html">Projects</a></li>
-                <li><a href="Contact Me.html">Contact</a></li>
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="About.html" class="nav-link">About</a></li>
+                <li><a href="Skills.html" class="nav-link">Skills</a></li>
+                <li><a href="Projects.html" class="nav-link">Projects</a></li>
+                <li><a href="Contact Me.html" class="nav-link">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -696,5 +708,7 @@
             progressObserver.observe(card);
         });
     </script>
+    <script src="nav-active.js"></script>
+
 </body>
 </html>
