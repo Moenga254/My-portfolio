@@ -707,8 +707,21 @@
         document.querySelectorAll('.skill-card').forEach(card => {
             progressObserver.observe(card);
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+  const links = document.querySelectorAll(".nav-link");
+  const currentPage = window.location.pathname.split("/").pop();
+
+  links.forEach(link => {
+    const linkPage = link.getAttribute("href");
+
+    if (linkPage === currentPage || (currentPage === "" && linkPage === "index.html")) {
+      link.classList.add("active");
+    }
+  });
+});
+
     </script>
-    <script src="nav-active.js"></script>
 
 </body>
 </html>
