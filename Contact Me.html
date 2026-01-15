@@ -121,6 +121,18 @@
             width: 100%;
         }
 
+        /* Active Navigation State - Fixed */
+        nav ul li a.active {
+            color: #00ffcc !important;
+            font-weight: 600;
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+            background: #00ffcc !important;
+            height: 3px;
+        }
+
         /* Contact Section */
         .contact-section {
             min-height: 100vh;
@@ -297,7 +309,6 @@
             box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
         }
 
-       
         /* CTA Section */
         .cta-section {
             text-align: center;
@@ -425,19 +436,6 @@
                 font-size: 1.5rem;
             }
         }
-        
-
-    .nav-link {
-      color: #bbb;
-      text-decoration: none;
-    }
-
-    .nav-link.active {
-      color: #00ffcc;
-      border-bottom: 2px solid #00ffcc;
-      font-weight: 600;
-    }
-
     </style>
 </head>
 <body>
@@ -558,6 +556,23 @@
             particlesContainer.appendChild(particle);
         }
 
+        // Active navigation state - Fixed
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll(".nav-link");
+            const currentPage = window.location.pathname.split("/").pop();
+
+            links.forEach(link => {
+                const linkPage = link.getAttribute("href");
+
+                // Check for exact match or if on home page
+                if (linkPage === currentPage || 
+                    (currentPage === "" && linkPage === "index.html") ||
+                    (currentPage === "Contact Me.html" && linkPage === "Contact Me.html")) {
+                    link.classList.add("active");
+                }
+            });
+        });
+
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -601,7 +616,7 @@
             });
         });
 
-        // Copy to clipboard functionality (optional enhancement)
+        // Copy to clipboard functionality
         document.querySelectorAll('.contact-info').forEach(info => {
             info.style.cursor = 'pointer';
             info.title = 'Click to copy';
@@ -620,20 +635,6 @@
                 });
             });
         });
-
-        document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".nav-link");
-  const currentPage = window.location.pathname.split("/").pop();
-
-  links.forEach(link => {
-    const linkPage = link.getAttribute("href");
-
-    if (linkPage === currentPage || (currentPage === "" && linkPage === "index.html")) {
-      link.classList.add("active");
-    }
-  });
-});
-
     </script>
 </body>
 </html>
