@@ -1,1013 +1,469 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Kevin Moenga</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+<title>Projects - Kevin Moenga</title>
 
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out;
-        }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-50px) translateX(30px); }
-            50% { transform: translateY(-100px) translateX(-30px); }
-            75% { transform: translateY(-50px) translateX(30px); }
-        }
+<style>
 
-        /* Header styles */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 12, 41, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideDown 0.8s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        header h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        header h2:hover {
-            transform: scale(1.05);
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #667eea;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* Projects Section */
-        .projects-section {
-            min-height: 100vh;
-            padding: 120px 8% 60px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .projects-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            opacity: 0;
-            animation: fadeInDown 1s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .projects-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
-        }
-
-        .projects-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
-        }
-
-        .projects-header p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 1.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Projects Grid */
-        .projects-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            position: relative;
-        }
-
-        .project-card:nth-child(1) { animation-delay: 0.3s; }
-        .project-card:nth-child(2) { animation-delay: 0.5s; }
-        .project-card:nth-child(3) { animation-delay: 0.7s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.1);
-        }
-
-        .project-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, rgba(15, 12, 41, 0.8));
-            z-index: 1;
-        }
-
-        .project-content {
-            padding: 2rem;
-        }
-
-        .project-number {
-            font-size: 0.85rem;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .project-description {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tech {
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tech h4 {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1rem;
-        }
-
-        .tech-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .tech-name {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            min-width: 120px;
-        }
-
-        .tech-bar {
-            flex: 1;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .tech-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            width: 0;
-            transition: width 1.5s ease;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
-        }
-
-        .project-card.visible .tech-progress {
-            width: var(--tech-width);
-        }
-
-        .tech-percentage {
-            font-size: 0.85rem;
-            color: #667eea;
-            font-weight: 600;
-            min-width: 40px;
-            text-align: right;
-        }
-
-        .project-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.9rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-            border: none;
-            cursor: pointer;
-        }
-
-        .project-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
-        }
-
-        /* GitHub CTA */
-        .github-cta {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.9s;
-            margin-top: 3rem;
-        }
-
-        .github-cta h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .github-cta p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
-        }
-
-        .github-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .github-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(15, 12, 41, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 1;
-            margin-top: 3rem;
-        }
-
-        footer p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 968px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 3%;
-            }
-
-            nav ul {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .projects-section {
-                padding: 100px 5% 40px;
-            }
-
-            .projects-header h1 {
-                font-size: 2.5rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .projects-header h1 {
-                font-size: 2rem;
-            }
-
-            .project-content {
-                padding: 1.5rem;
-            }
-
-            .project-title {
-                font-size: 1.5rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .tech-name {
-                min-width: 80px;
-                font-size: 0.85rem;
-            }
-        }
-        
-
-        .nav-link {
-  color: #bbb;
-  text-decoration: none;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.nav-link.active {
-  color: #00ffcc;
-  border-bottom: 2px solid #00ffcc;
-  font-weight: 600;
+body{
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+background:linear-gradient(135deg,#e0f2fe,#bae6fd,#7dd3fc);
+color:#0f172a;
+overflow-x:hidden;
 }
 
-    </style>
+/* PARTICLES */
+
+.particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+}
+
+.particle{
+position:absolute;
+background:rgba(59,130,246,0.15);
+border-radius:50%;
+animation:float 15s infinite ease-in-out;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0) translateX(0);}
+25%{transform:translateY(-50px) translateX(30px);}
+50%{transform:translateY(-100px) translateX(-30px);}
+75%{transform:translateY(-50px) translateX(30px);}
+}
+
+/* HEADER */
+
+header{
+position:fixed;
+top:0;
+width:100%;
+padding:1.5rem 5%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,0.8);
+backdrop-filter:blur(10px);
+z-index:1000;
+border-bottom:1px solid rgba(0,0,0,0.05);
+}
+
+header h2{
+font-size:1.8rem;
+font-weight:700;
+color:#0369a1;
+}
+
+nav ul{
+display:flex;
+gap:2rem;
+list-style:none;
+}
+
+nav a{
+text-decoration:none;
+color:#1e293b;
+font-weight:500;
+}
+
+.nav-link.active{
+color:#0284c7;
+border-bottom:2px solid #0284c7;
+font-weight:600;
+}
+
+/* SECTION */
+
+.projects-section{
+padding:120px 8% 60px;
+position:relative;
+z-index:1;
+}
+
+.projects-header{
+text-align:center;
+margin-bottom:4rem;
+}
+
+.projects-header h1{
+font-size:3rem;
+color:#0369a1;
+}
+
+.projects-header p{
+color:#334155;
+margin-top:10px;
+}
+
+/* GRID */
+
+.projects-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:2rem;
+}
+
+/* CARD */
+
+.project-card{
+background:white;
+border-radius:15px;
+padding:2rem;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+transition:.3s;
+}
+
+.project-card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+}
+
+.project-number{
+font-size:.8rem;
+color:#0284c7;
+margin-bottom:5px;
+font-weight:600;
+}
+
+.project-title{
+font-size:1.4rem;
+margin-bottom:10px;
+}
+
+.project-description{
+font-size:.95rem;
+color:#475569;
+margin-bottom:15px;
+line-height:1.5;
+}
+
+/* TECH STACK */
+
+.tech-row{
+display:flex;
+gap:12px;
+margin-bottom:15px;
+}
+
+.tech-row i{
+font-size:26px;
+}
+
+/* BUTTON */
+
+.project-button{
+display:inline-block;
+padding:10px 20px;
+background:#0284c7;
+color:white;
+border-radius:30px;
+text-decoration:none;
+font-size:.9rem;
+font-weight:600;
+transition:.3s;
+}
+
+.project-button:hover{
+background:#0369a1;
+}
+
+/* GITHUB CTA */
+
+.github-cta{
+margin-top:60px;
+text-align:center;
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.github-cta h2{
+color:#0369a1;
+margin-bottom:10px;
+}
+
+.github-button{
+display:inline-block;
+margin-top:15px;
+padding:12px 30px;
+background:black;
+color:white;
+border-radius:40px;
+text-decoration:none;
+font-weight:600;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:2rem;
+margin-top:40px;
+color:#475569;
+}
+
+</style>
 </head>
+
 <body>
-    <!-- Animated Background Particles -->
-    <div class="particles" id="particles"></div>
 
-    <!-- Header -->
-    <header>
-        <h2>Kevin Moenga.</h2>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="About.html" class="nav-link">About</a></li>
-                <li><a href="Skills.html" class="nav-link">Skills</a></li>
-                <li><a href="Projects.html" class="nav-link">Projects</a></li>
-                <li><a href="Contact Me.html" class="nav-link">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="particles" id="particles"></div>
 
-    <!-- Projects Section -->
-    <section class="projects-section">
-        <div class="projects-container">
-            <div class="projects-header">
-                <h1>Projects Showcase</h1>
-                <p>Here are some of the projects I've built to practice and showcase my front-end development skills.</p>
-            </div>
+<header>
 
-            <div class="projects-grid">
-                <!-- Project 1: Currency Converter -->
-                <div class="project-card">
-                    <div class="project-image">
-                        💱
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 01</div>
-                        <h2 class="project-title">Currency Converter</h2>
-                        <p class="project-description">
-                            A simple web app that converts currencies with a clean UI. Perfect for quick currency calculations with real-time exchange rates.
-                        </p>
-                        
-                        <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 25%"></div>
-                                </div>
-                                <span class="tech-percentage">25%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 50%"></div>
-                                </div>
-                                <span class="tech-percentage">50%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 80%"></div>
-                                </div>
-                                <span class="tech-percentage">80%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="CURRENCY CONVERTER.html" class="project-button">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
+<h2>Kevin Moenga.</h2>
 
-                <!-- Project 2: BMI Calculator -->
-                <div class="project-card">
-                    <div class="project-image">
-                        ⚖️
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 02</div>
-                        <h2 class="project-title">BMI Calculator</h2>
-                        <p class="project-description">
-                            An app that calculates Body Mass Index and classifies results. Helps users understand their health metrics with instant feedback.
-                        </p>
-                        
-                        <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 30%"></div>
-                                </div>
-                                <span class="tech-percentage">30%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 66%"></div>
-                                </div>
-                                <span class="tech-percentage">66%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 75%"></div>
-                                </div>
-                                <span class="tech-percentage">75%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="BMI calculator.html" class="project-button">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
+<nav>
+<ul>
 
-                <!-- Project 3: Armaini Car Dealers -->
-                <div class="project-card">
-                    <div class="project-image">
-                        🚗
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 03</div>
-                        <h2 class="project-title">Armaini Car Dealers</h2>
-                        <p class="project-description">
-                            A car dealership website showcasing all available cars, their details, prices, and manufacture year. Features a sign-in system for membership.
-                        </p>
-                        
-                        <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 70%"></div>
-                                </div>
-                                <span class="tech-percentage">70%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 95%"></div>
-                                </div>
-                                <span class="tech-percentage">95%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="Armani/ARMANI home page.html" class="project-button">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- project 04 Armani admin page -->
-                 <div class="project-card">
-                    <div class="project-image">
-                        🚗
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 04</div>
-                        <h2 class="project-title">Armaini Car Dealers (Admin Page)</h2>
-                        <p class="project-description">
-                            The backbone of Armani car Dealers website where car details & images are added or deleted from the website. Also warrant, insuarance, and isue a test drive. 
-                        </p>
-                        
-                <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 50%"></div>
-                                </div>
-                                <span class="tech-percentage">50%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 60%"></div>
-                                </div>
-                                <span class="tech-percentage">60%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 70%"></div>
-                                </div>
-                                <span class="tech-percentage">30%</span>
-                            </div>
-                     <div class="tech-item">
-                                <span class="tech-name">PHP</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 80%"></div>
-                                </div>
-                                <span class="tech-percentage">80%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="Armani_admin/index.html" class="project-button">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
+<li><a href="index.html" class="nav-link">Home</a></li>
+<li><a href="About.html" class="nav-link">About</a></li>
+<li><a href="Skills.html" class="nav-link">Skills</a></li>
+<li><a href="Projects.html" class="nav-link">Projects</a></li>
+<li><a href="Contact Me.html" class="nav-link">Contact</a></li>
 
-                <!-- project 05 Tiger roller skaters -->
-                 <div class="project-card">
-                    <div class="project-image">
-                        🐯
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 05</div>
-                        <h2 class="project-title">Tiger roller skaters</h2>
-                        <p class="project-description">
-                            A website i created for a coaching team that helps register new students to coach with ease, backend also helps review schools currently being coached, no of students & progress.
-                        </p>
-                        
-                <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 60%"></div>
-                                </div>
-                                <span class="tech-percentage">60%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 40%"></div>
-                                </div>
-                                <span class="tech-percentage">40%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 30%"></div>
-                                </div>
-                                <span class="tech-percentage">30%</span>
-                            </div>
-                     <div class="tech-item">
-                                <span class="tech-name">PHP</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 20%"></div>
-                                </div>
-                                <span class="tech-percentage">20%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="https://tigrollersk-kgavhjsw.manus.space" class="project-button">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- project 06 GitHub Profile Viewer -->
-                 <div class="project-card">
-                    <div class="project-image">
-                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width: 64px; height: 64px;">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 06</div>
-                        <h2 class="project-title">GitHub Profile Viewe</h2>
-                        <p class="project-description">
-                            This is a web aplication that lets you search for GitHub accounts way faster & easier, also lets you compare the accounts by their projects/repos (works well when looking for a good qualified employe). 
-                        </p>
-                        
-                <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 35%"></div>
-                                </div>
-                                <span class="tech-percentage">35%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 56%"></div>
-                                </div>
-                                <span class="tech-percentage">56%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 30%"></div>
-                                </div>
-                                <span class="tech-percentage">30%</span>
-                            </div>
-                     <div class="tech-item">
-                                <span class="tech-name">React</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 100%"></div>
-                                </div>
-                                <span class="tech-percentage">100%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="https://git-hub-profile-viewer-o5r7i6236-kevin-moengas-projects.vercel.app" class="project-button" target="_blank">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
+</ul>
+</nav>
 
-                <!-- project 07 Tuzidi-mart -->
-                 <div class="project-card">
-                    <div class="project-image">
-                        🛒
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 07</div>
-                        <h2 class="project-title">Tuzidi mart</h2>
-                        <p class="project-description">
-                            This is a demo website for an e-commerce business that sells products. 
-                        </p>
-                        
-                <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 20%"></div>
-                                </div>
-                                <span class="tech-percentage">20%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 60%"></div>
-                                </div>
-                                <span class="tech-percentage">60%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 55%"></div>
-                                </div>
-                                <span class="tech-percentage">55%</span>
-                            </div>
-                     <div class="tech-item">
-                                <span class="tech-name">React</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 100%"></div>
-                                </div>
-                                <span class="tech-percentage">100%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="https://tuzidi-mart-ckgu8jch7-kevin-moengas-projects.vercel.app" class="project-button" target="_blank">
-                            View Project →
-                        </a>
-                    </div>
-                </div>
+</header>
 
-                <!-- project 08 Drip Shop -->
-                 <div class="project-card">
-                    <div class="project-image">
-                       👖
-                    </div>
-                    <div class="project-content">
-                        <div class="project-number">PROJECT 08</div>
-                        <h2 class="project-title">Drip Shop</h2>
-                        <p class="project-description">
-                            This is a demo website for an online clothing shop. 
-                        </p>
-                        
-                <div class="project-tech">
-                            <h4>Technologies Used:</h4>
-                            <div class="tech-item">
-                                <span class="tech-name">HTML5</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 80%"></div>
-                                </div>
-                                <span class="tech-percentage">80%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">CSS3</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 60%"></div>
-                                </div>
-                                <span class="tech-percentage">60%</span>
-                            </div>
-                            <div class="tech-item">
-                                <span class="tech-name">JavaScript</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 55%"></div>
-                                </div>
-                                <span class="tech-percentage">55%</span>
-                            </div>
-                     <div class="tech-item">
-                                <span class="tech-name">React</span>
-                                <div class="tech-bar">
-                                    <div class="tech-progress" style="--tech-width: 100%"></div>
-                                </div>
-                                <span class="tech-percentage">100%</span>
-                            </div>
-                        </div>
-                        
-                        <a href="https://kevinmk.infinityfree.me" class="project-button" target="_blank">
-                            View Project →
-                        </a> <br> <br>
-                        <a href="https://kevinmk.infinityfree.me/admin.html" class="project-button" target="_blank">
-                            Admin panel →
-                        </a>
-                        
-                    </div>
-                </div>
-        
-            </div>
 
-            <!-- GitHub CTA -->
-            <div class="github-cta">
-                <h2>Want to See More?</h2>
-                <p>Check out all my projects and contributions on GitHub. I'm constantly building and learning new things!</p>
-                <a href="https://github.com/Moenga254" target="_blank" class="github-button">
-                    <span>💻</span>
-                    Visit My GitHub
-                </a>
-            </div>
-        </div>
-    </section>
+<section class="projects-section">
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Kevin Moenga. All Rights Reserved.</p>
-    </footer>
+<div class="projects-header">
 
-    <script>
-        // Create animated background particles
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
+<h1>Projects Showcase</h1>
+<p>Some of the applications and systems I've built.</p>
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            const size = Math.random() * 5 + 2;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const delay = Math.random() * 15;
-            
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            particle.style.animationDelay = `${delay}s`;
-            
-            particlesContainer.appendChild(particle);
-        }
+</div>
 
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
 
-        // Add cursor glow effect
-        const cursor = document.createElement('div');
-        cursor.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.3), transparent);
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-        `;
-        document.body.appendChild(cursor);
+<div class="projects-grid">
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-        });
+<!-- Project -->
 
-        // Add hover scale effect to cursor
-        document.querySelectorAll('a, .project-card').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-            });
-        });
+<div class="project-card">
 
-        // Animate tech progress bars on scroll
-        const observerOptions = {
-            threshold: 0.3,
-            rootMargin: '0px'
-        };
+<div class="project-number">PROJECT 01</div>
 
-        const progressObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    progressObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+<h2 class="project-title">Currency Converter</h2>
 
-        document.querySelectorAll('.project-card').forEach(card => {
-            progressObserver.observe(card);
-        });
-        document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".nav-link");
-  const currentPage = window.location.pathname.split("/").pop();
+<p class="project-description">
+A web app that converts currencies using real-time exchange rates.
+</p>
 
-  links.forEach(link => {
-    const linkPage = link.getAttribute("href");
+<div class="tech-row">
 
-    if (linkPage === currentPage || (currentPage === "" && linkPage === "index.html")) {
-      link.classList.add("active");
-    }
-  });
-});
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+<i class="devicon-javascript-plain colored"></i>
 
-    </script>
+</div>
+
+<a href="CURRENCY CONVERTER.html" class="project-button">View Project</a>
+
+</div>
+
+
+<!-- Project -->
+
+<div class="project-card">
+
+<div class="project-number">PROJECT 02</div>
+
+<h2 class="project-title">BMI Calculator</h2>
+
+<p class="project-description">
+Calculates body mass index and categorizes results instantly.
+</p>
+
+<div class="tech-row">
+
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+<i class="devicon-javascript-plain colored"></i>
+
+</div>
+
+<a href="BMI calculator.html" class="project-button">View Project</a>
+
+</div>
+
+
+<!-- Project -->
+
+<div class="project-card">
+
+<div class="project-number">PROJECT 03</div>
+
+<h2 class="project-title">Armaini Car Dealers</h2>
+
+<p class="project-description">
+Car dealership platform displaying cars, prices and details.
+</p>
+
+<div class="tech-row">
+
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+
+</div>
+
+<a href="Armani/ARMANI home page.html" class="project-button">View Project</a>
+
+</div>
+
+
+<!-- Project -->
+
+<div class="project-card">
+
+<div class="project-number">PROJECT 04</div>
+
+<h2 class="project-title">Armaini Admin Panel</h2>
+
+<p class="project-description">
+Backend dashboard to manage vehicles, insurance and test drives.
+</p>
+
+<div class="tech-row">
+
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+<i class="devicon-javascript-plain colored"></i>
+<i class="devicon-php-plain colored"></i>
+
+</div>
+
+<a href="Armani_admin/index.html" class="project-button">View Project</a>
+
+</div>
+
+
+<!-- Project -->
+
+<div class="project-card">
+
+<div class="project-number">PROJECT 05</div>
+
+<h2 class="project-title">Tiger Roller Skaters</h2>
+
+<p class="project-description">
+Registration system for skating students and school coaching management.
+</p>
+
+<div class="tech-row">
+
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+<i class="devicon-javascript-plain colored"></i>
+<i class="devicon-php-plain colored"></i>
+
+</div>
+
+<a href="https://tigrollersk-kgavhjsw.manus.space" class="project-button" target="_blank">View Project</a>
+
+</div>
+
+
+<!-- Project -->
+
+<div class="project-card">
+
+<div class="project-number">PROJECT 06</div>
+
+<h2 class="project-title">GitHub Profile Viewer</h2>
+
+<p class="project-description">
+Search and compare GitHub profiles and repositories quickly.
+</p>
+
+<div class="tech-row">
+
+<i class="devicon-html5-plain colored"></i>
+<i class="devicon-css3-plain colored"></i>
+<i class="devicon-javascript-plain colored"></i>
+<i class="devicon-react-original colored"></i>
+
+</div>
+
+<a href="https://git-hub-profile-viewer-o5r7i6236-kevin-moengas-projects.vercel.app" class="project-button" target="_blank">View Project</a>
+
+</div>
+
+
+</div>
+
+
+<div class="github-cta">
+
+<h2>Want to See More?</h2>
+
+<p>Check out all my repositories and contributions on GitHub.</p>
+
+<a href="https://github.com/Moenga254" target="_blank" class="github-button">
+
+<i class="devicon-github-original"></i>
+Visit My GitHub
+
+</a>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<p>© 2025 Kevin Moenga. All Rights Reserved.</p>
+
+</footer>
+
+
+<script>
+
+const particles=document.getElementById("particles")
+
+for(let i=0;i<50;i++){
+
+const p=document.createElement("div")
+
+p.className="particle"
+
+const size=Math.random()*5+2
+
+p.style.width=size+"px"
+p.style.height=size+"px"
+
+p.style.left=Math.random()*100+"%"
+p.style.top=Math.random()*100+"%"
+
+p.style.animationDelay=Math.random()*15+"s"
+
+particles.appendChild(p)
+
+}
+
+</script>
 
 </body>
 </html>
