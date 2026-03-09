@@ -1,667 +1,480 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Me - Kevin Moenga</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-        }
+<title>Contact Me - Kevin Moenga</title>
 
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+<style>
 
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-50px) translateX(30px); }
-            50% { transform: translateY(-100px) translateX(-30px); }
-            75% { transform: translateY(-50px) translateX(30px); }
-        }
-
-        /* Header styles */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 12, 41, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideDown 0.8s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        header h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        header h2:hover {
-            transform: scale(1.05);
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #667eea;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            min-height: 100vh;
-            padding: 120px 8% 60px;
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-container {
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        .contact-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            opacity: 0;
-            animation: fadeInDown 1s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .contact-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
-        }
-
-        .contact-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
-        }
-
-        .contact-header p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 1.5rem;
-        }
-
-        /* Contact Cards Grid */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .contact-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.4s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .contact-card:nth-child(1) { animation-delay: 0.3s; }
-        .contact-card:nth-child(2) { animation-delay: 0.4s; }
-        .contact-card:nth-child(3) { animation-delay: 0.5s; }
-        .contact-card:nth-child(4) { animation-delay: 0.6s; }
-        .contact-card:nth-child(5) { animation-delay: 0.7s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .contact-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .contact-card:hover::before {
-            left: 100%;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
-
-        .contact-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .contact-icon svg {
-            color: #fff;
-        }
-
-        .contact-card:hover .contact-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .contact-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.8rem;
-        }
-
-        .contact-info {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
-            word-break: break-word;
-        }
-
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .contact-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
-        }
-
-       
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.8s;
-        }
-
-        .cta-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .cta-section p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            border: 2px solid #667eea;
-        }
-
-        .cta-button.secondary:hover {
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(15, 12, 41, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 1;
-            margin-top: 3rem;
-        }
-
-        footer p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 968px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 3%;
-            }
-
-            nav ul {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .contact-section {
-                padding: 100px 5% 40px;
-            }
-
-            .contact-header h1 {
-                font-size: 2.5rem;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .contact-header h1 {
-                font-size: 2rem;
-            }
-
-            .contact-card {
-                padding: 1.5rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .cta-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.5rem;
-            }
-        }
-
-        .nav-link {
-  color: #bbb;
-  text-decoration: none;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.nav-link.active {
-  color: #00ffcc;
-  border-bottom: 2px solid #00ffcc;
-  font-weight: 600;
+body{
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+background:linear-gradient(135deg,#e0f2fe,#bae6fd,#7dd3fc);
+color:#0f172a;
+overflow-x:hidden;
 }
 
-    </style>
+/* PARTICLES */
+
+.particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+}
+
+.particle{
+position:absolute;
+background:rgba(59,130,246,0.15);
+border-radius:50%;
+animation:float 15s infinite ease-in-out;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0) translateX(0);}
+25%{transform:translateY(-50px) translateX(30px);}
+50%{transform:translateY(-100px) translateX(-30px);}
+75%{transform:translateY(-50px) translateX(30px);}
+}
+
+/* HEADER */
+
+header{
+position:fixed;
+top:0;
+width:100%;
+padding:1.5rem 5%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(10px);
+z-index:1000;
+border-bottom:1px solid rgba(0,0,0,0.05);
+}
+
+header h2{
+font-size:1.8rem;
+font-weight:700;
+color:#0369a1;
+cursor:pointer;
+}
+
+nav ul{
+display:flex;
+gap:2.5rem;
+list-style:none;
+}
+
+nav a{
+color:#1e293b;
+text-decoration:none;
+font-weight:500;
+}
+
+.nav-link.active{
+color:#0284c7;
+border-bottom:2px solid #0284c7;
+font-weight:600;
+}
+
+/* CONTACT SECTION */
+
+.contact-section{
+min-height:100vh;
+padding:120px 8% 60px;
+position:relative;
+z-index:1;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.contact-container{
+max-width:1000px;
+width:100%;
+}
+
+.contact-header{
+text-align:center;
+margin-bottom:4rem;
+}
+
+.contact-header h1{
+font-size:3rem;
+margin-bottom:1rem;
+color:#0369a1;
+}
+
+.contact-header p{
+color:#475569;
+}
+
+/* GRID */
+
+.contact-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:2rem;
+margin-bottom:3rem;
+}
+
+/* CARD */
+
+.contact-card{
+background:white;
+border-radius:20px;
+padding:2rem;
+transition:.3s;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.contact-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+}
+
+.contact-icon{
+width:70px;
+height:70px;
+background:#0284c7;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 1.5rem;
+color:white;
+}
+
+.contact-title{
+font-size:1.2rem;
+font-weight:600;
+margin-bottom:6px;
+}
+
+.contact-info{
+color:#475569;
+margin-bottom:12px;
+cursor:pointer;
+}
+
+.contact-link{
+display:inline-block;
+padding:10px 20px;
+background:#0284c7;
+color:white;
+text-decoration:none;
+border-radius:30px;
+font-weight:600;
+transition:.3s;
+}
+
+.contact-link:hover{
+background:#0369a1;
+}
+
+/* CTA */
+
+.cta-section{
+text-align:center;
+background:white;
+padding:3rem 2rem;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.cta-section h2{
+color:#0369a1;
+margin-bottom:10px;
+}
+
+.cta-section p{
+color:#475569;
+margin-bottom:20px;
+}
+
+.cta-buttons{
+display:flex;
+gap:1.5rem;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.cta-button{
+padding:12px 30px;
+background:#0284c7;
+color:white;
+text-decoration:none;
+border-radius:40px;
+font-weight:600;
+}
+
+.cta-button.secondary{
+background:white;
+border:2px solid #0284c7;
+color:#0284c7;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:2rem;
+background:white;
+margin-top:3rem;
+}
+
+footer p{
+color:#64748b;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+header{
+flex-direction:column;
+gap:10px;
+}
+
+nav ul{
+flex-wrap:wrap;
+justify-content:center;
+gap:1rem;
+}
+
+.contact-header h1{
+font-size:2.2rem;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-    <!-- Animated Background Particles -->
-    <div class="particles" id="particles"></div>
 
-    <!-- Header -->
-    <header>
-        <h2>Kevin Moenga.</h2>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="About.html" class="nav-link">About</a></li>
-                <li><a href="Skills.html" class="nav-link">Skills</a></li>
-                <li><a href="Projects.html" class="nav-link">Projects</a></li>
-                <li><a href="Contact Me.html" class="nav-link">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="particles" id="particles"></div>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-        <div class="contact-container">
-            <div class="contact-header">
-                <h1>Get In Touch</h1>
-                <p>Let's connect and create something amazing together!</p>
-            </div>
+<header>
 
-            <div class="contact-grid">
-                <!-- Email -->
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="4" width="20" height="16" rx="2"/>
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                        </svg>
-                    </div>
-                    <div class="contact-title">Email</div>
-                    <div class="contact-info">kmoenga2@gmail.com</div>
-                    <a href="mailto:kmoenga2@gmail.com" class="contact-link">
-                        Send Email
-                    </a>
-                </div>
+<h2>Kevin Moenga.</h2>
 
-                <!-- GitHub -->
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-                            <path d="M9 18c-4.51 2-5-2-7-2"/>
-                        </svg>
-                    </div>
-                    <div class="contact-title">GitHub</div>
-                    <div class="contact-info">Moenga254</div>
-                    <a href="https://github.com/Moenga254" target="_blank" class="contact-link">
-                        View Profile
-                    </a>
-                </div>
+<nav>
+<ul>
 
-                <!-- Instagram -->
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                        </svg>
-                    </div>
-                    <div class="contact-title">Instagram</div>
-                    <div class="contact-info">@Jvst.__.mk</div>
-                    <a href="https://www.instagram.com/jvst.__.mk/" target="_blank" class="contact-link">
-                        Follow Me
-                    </a>
-                </div>
+<li><a href="index.html" class="nav-link">Home</a></li>
+<li><a href="About.html" class="nav-link">About</a></li>
+<li><a href="Skills.html" class="nav-link">Skills</a></li>
+<li><a href="Projects.html" class="nav-link">Projects</a></li>
+<li><a href="Contact Me.html" class="nav-link">Contact</a></li>
 
-                <!-- WhatsApp -->
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                        </svg>
-                    </div>
-                    <div class="contact-title">WhatsApp</div>
-                    <div class="contact-info">+254 785 721 923</div>
-                    <a href="https://wa.me/254785721923" target="_blank" class="contact-link">
-                        Chat Now
-                    </a>
-                </div>
+</ul>
+</nav>
 
-                <!-- LinkedIn -->
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                            <rect x="2" y="9" width="4" height="12"/>
-                            <circle cx="4" cy="4" r="2"/>
-                        </svg>
-                    </div>
-                    <div class="contact-title">LinkedIn</div>
-                    <div class="contact-info">Professional Network</div>
-                    <a href="https://www.linkedin.com/search/results/all/?keywords=Kevin%20Moenga" target="_blank" class="contact-link">
-                     LinkedIn
-                    </a>
-                </div>
-            </div>
+</header>
 
-            <!-- CTA Section -->
-            <div class="cta-section">
-                <h2>Ready to Start a Project?</h2>
-                <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
-                <div class="cta-buttons">
-                    <a href="mailto:kmoenga2@gmail.com" class="cta-button">Let's Collaborate</a>
-                    <a href="index.html" class="cta-button secondary">Back to Home</a>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="contact-section">
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Kevin Moenga. All Rights Reserved.</p>
-    </footer>
+<div class="contact-container">
 
-    <script>
-        // Create animated background particles
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
+<div class="contact-header">
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            const size = Math.random() * 5 + 2;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const delay = Math.random() * 15;
-            
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            particle.style.animationDelay = `${delay}s`;
-            
-            particlesContainer.appendChild(particle);
-        }
+<h1>Get In Touch</h1>
+<p>Let's connect and create something amazing together.</p>
 
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+</div>
 
-        // Add cursor glow effect
-        const cursor = document.createElement('div');
-        cursor.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.3), transparent);
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-        `;
-        document.body.appendChild(cursor);
+<div class="contact-grid">
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-        });
+<div class="contact-card">
 
-        // Add hover scale effect to cursor
-        document.querySelectorAll('a, .contact-card').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-            });
-        });
+<div class="contact-icon">
 
-        // Copy to clipboard functionality (optional enhancement)
-        document.querySelectorAll('.contact-info').forEach(info => {
-            info.style.cursor = 'pointer';
-            info.title = 'Click to copy';
-            
-            info.addEventListener('click', () => {
-                const text = info.textContent;
-                navigator.clipboard.writeText(text).then(() => {
-                    const originalText = info.textContent;
-                    info.textContent = '✓ Copied!';
-                    info.style.color = '#4ade80';
-                    
-                    setTimeout(() => {
-                        info.textContent = originalText;
-                        info.style.color = '';
-                    }, 2000);
-                });
-            });
-        });
+<svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="2" y="4" width="20" height="16" rx="2"/>
+</svg>
 
-        document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".nav-link");
-  const currentPage = window.location.pathname.split("/").pop();
+</div>
 
-  links.forEach(link => {
-    const linkPage = link.getAttribute("href");
+<div class="contact-title">Email</div>
+<div class="contact-info">kmoenga2@gmail.com</div>
 
-    if (linkPage === currentPage || (currentPage === "" && linkPage === "index.html")) {
-      link.classList.add("active");
-    }
-  });
-});
-    </script>
+<a href="mailto:kmoenga2@gmail.com" class="contact-link">
+Send Email
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+
+<svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="12" cy="12" r="10"/>
+</svg>
+
+</div>
+
+<div class="contact-title">GitHub</div>
+<div class="contact-info">Moenga254</div>
+
+<a href="https://github.com/Moenga254" target="_blank" class="contact-link">
+View Profile
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+
+<svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="2" y="2" width="20" height="20" rx="5"/>
+</svg>
+
+</div>
+
+<div class="contact-title">Instagram</div>
+<div class="contact-info">@Jvst.__.mk</div>
+
+<a href="https://www.instagram.com/jvst.__.mk/" target="_blank" class="contact-link">
+Follow
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+
+<svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="12" cy="12" r="10"/>
+</svg>
+
+</div>
+
+<div class="contact-title">WhatsApp</div>
+<div class="contact-info">+254 785 721 923</div>
+
+<a href="https://wa.me/254785721923" target="_blank" class="contact-link">
+Chat Now
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+
+<svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="4" y="4" width="16" height="16"/>
+</svg>
+
+</div>
+
+<div class="contact-title">LinkedIn</div>
+<div class="contact-info">Kevin Moenga</div>
+
+<a href="https://www.linkedin.com" target="_blank" class="contact-link">
+Connect
+</a>
+
+</div>
+
+</div>
+
+
+<div class="cta-section">
+
+<h2>Ready to Start a Project?</h2>
+
+<p>I’m always open to discussing new ideas and opportunities.</p>
+
+<div class="cta-buttons">
+
+<a href="mailto:kmoenga2@gmail.com" class="cta-button">
+Let's Collaborate
+</a>
+
+<a href="index.html" class="cta-button secondary">
+Back Home
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2025 Kevin Moenga. All Rights Reserved.</p>
+
+</footer>
+
+
+<script>
+
+const particles=document.getElementById("particles")
+
+for(let i=0;i<50;i++){
+
+const p=document.createElement("div")
+
+p.className="particle"
+
+const size=Math.random()*5+2
+
+p.style.width=size+"px"
+p.style.height=size+"px"
+
+p.style.left=Math.random()*100+"%"
+p.style.top=Math.random()*100+"%"
+
+p.style.animationDelay=Math.random()*15+"s"
+
+particles.appendChild(p)
+
+}
+
+/* NAV ACTIVE */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const links=document.querySelectorAll(".nav-link")
+const currentPage=window.location.pathname.split("/").pop()
+
+links.forEach(link=>{
+
+if(link.getAttribute("href")===currentPage){
+
+link.classList.add("active")
+
+}
+
+})
+
+})
+
+</script>
+
 </body>
 </html>
